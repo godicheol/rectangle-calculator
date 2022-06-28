@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rectangle-calculator</title>
+    <style>
+        .line{margin: 1rem 0; border-bottom: 1px solid;}
+        table{border-collapse: collapse;}
+        td, th{border: 1px solid;}
+    </style>
+</head>
+
+<body>
+    <h1>rectangle-calculator</h1>
+
+    <div class="line"></div>
+
+    <canvas id="canv" width="256" height="256" style="border: 1px solid;"></canvas>
+
+    <div class="line"></div>
+
+    <table style="text-align: center;">
+        <tr>
+            <th>X</th>
+            <th>Y</th>
+            <th>Width</th>
+            <th>Height</th>
+            <th>Degree</th>
+        </tr>
+        <tr>
+            <td id="rect-x"></td>
+            <td id="rect-y"></td>
+            <td id="rect-width"></td>
+            <td id="rect-height"></td>
+            <td id="rect-degree"></td>
+        </tr>
+    </table>
+
+    <script src="dist/rectangle-calculator.js"></script>
+    <script>
+        var animation;
+        var rect = new Rect({
+            x: 128,
+            y: 128,
+            width: 128,
+            height: 64,
+            degree: 10
+        });
+        var canvas = document.getElementById("canv");
+        var ctx = canvas.getContext("2d");
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#000000';
+        ctx.font = '16px serif';
+
+        function draw() {
+            var c = rect.getCanvas();
+            var dx = (0.5*canvas.width)-(0.5*c.width);
+            var dy = (0.5*canvas.height)-(0.5*c.height);
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+
+            ctx.drawImage(c,dx,dy);
+
+            ctx.beginPath();
+            ctx.rect(dx, dy, rect.rotatedWidth, rect.rotatedHeight);
+            ctx.stroke();
+
+            ctx.fillText(Math.floor(rect.rotatedWidth)+' px', dx+0.5*rect.rotatedWidth, dy+rect.rotatedHeight+20);
+            ctx.fillText(Math.floor(rect.rotatedHeight)+' px', dx+rect.rotatedWidth+4, dy+0.5*rect.rotatedHeight+8);
+
+            write();
+        }
+        function write() {
+            document.getElementById("rect-x").innerHTML = Math.floor(rect.x);
+            document.getElementById("rect-y").innerHTML = Math.floor(rect.y);
+            document.getElementById("rect-width").innerHTML = Math.floor(rect.width);
+            document.getElementById("rect-height").innerHTML = Math.floor(rect.height);
+            document.getElementById("rect-degree").innerHTML = Math.floor(rect.degree);
+        }
+        function startAnimation() {
+            animation = setInterval(function() {
+                rect.rotate(rect.degree + 5);
+                draw();
+            }, 50);
+        }
+        function endAnimetion() {
+            clearInterval(animation);
+        }
+
+        draw();
+        startAnimation();
+
+    </script>
+</body>
+
+</html>
