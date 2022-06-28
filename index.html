@@ -50,24 +50,97 @@
         });
         var canvas = document.getElementById("canv");
         var ctx = canvas.getContext("2d");
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = '#000000';
-        ctx.font = '16px serif';
+        ctx.lineWidth = 2;
 
         function draw() {
             var c = rect.getCanvas();
             var dx = (0.5*canvas.width)-(0.5*c.width);
             var dy = (0.5*canvas.height)-(0.5*c.height);
+            var points = rect.points;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.save();
 
+            ctx.font = '10px serif';
+
             ctx.drawImage(c,dx,dy);
 
             ctx.beginPath();
+            ctx.strokeStyle = '#000000';
             ctx.rect(dx, dy, rect.rotatedWidth, rect.rotatedHeight);
             ctx.stroke();
 
+            // points[2]
+            ctx.fillStyle = '#3377ee';
+            ctx.beginPath();
+            ctx.strokeStyle = '#3377ee';
+            ctx.moveTo(points[2].x, 0);
+            ctx.lineTo(points[2].x, points[2].y);
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#3377ee';
+            ctx.moveTo(0, points[2].y);
+            ctx.lineTo(points[2].x, points[2].y);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.fillText(Math.floor(points[2].x)+" x "+Math.floor(points[2].y)+' px', points[2].x+4, points[2].y+16);
+
+            // points[1]
+            ctx.fillStyle = '#5599cc';
+            ctx.beginPath();
+            ctx.strokeStyle = '#5599cc';
+            ctx.moveTo(points[1].x, canvas.height);
+            ctx.lineTo(points[1].x, points[1].y);
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#5599cc';
+            ctx.moveTo(canvas.width, points[1].y);
+            ctx.lineTo(points[1].x, points[1].y);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.fillText(Math.floor(points[1].x)+" x "+Math.floor(points[1].y)+' px', points[1].x+4, points[1].y+16);
+
+            // points[0]
+            ctx.fillStyle = '#99cc66';
+            ctx.beginPath();
+            ctx.strokeStyle = '#99cc66';
+            ctx.moveTo(points[0].x, 0);
+            ctx.lineTo(points[0].x, points[0].y);
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#99cc66';
+            ctx.moveTo(0, points[0].y);
+            ctx.lineTo(points[0].x, points[0].y);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.fillText(Math.floor(points[0].x)+" x "+Math.floor(points[0].y)+' px', points[0].x+4, points[0].y+16);
+
+            // points[3]
+            ctx.fillStyle = '#ff77ee';
+            ctx.beginPath();
+            ctx.strokeStyle = '#ff77ee';
+            ctx.moveTo(points[3].x, canvas.height);
+            ctx.lineTo(points[3].x, points[3].y);
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#ff77ee';
+            ctx.moveTo(canvas.width, points[3].y);
+            ctx.lineTo(points[3].x, points[3].y);
+            ctx.stroke();
+            ctx.closePath();
+            ctx.fillText(Math.floor(points[3].x)+" x "+Math.floor(points[3].y)+' px', points[3].x+4, points[3].y+16);
+
+
+            ctx.font = '12px serif';
+            ctx.fillStyle = '#000';
             ctx.fillText(Math.floor(rect.rotatedWidth)+' px', dx+0.5*rect.rotatedWidth, dy+rect.rotatedHeight+20);
             ctx.fillText(Math.floor(rect.rotatedHeight)+' px', dx+rect.rotatedWidth+4, dy+0.5*rect.rotatedHeight+8);
 
@@ -84,15 +157,15 @@
             animation = setInterval(function() {
                 rect.rotate(rect.degree + 5);
                 draw();
-            }, 50);
+            }, 100);
         }
         function endAnimetion() {
             clearInterval(animation);
         }
 
         draw();
+        console.log(rect);
         startAnimation();
-
     </script>
 </body>
 
